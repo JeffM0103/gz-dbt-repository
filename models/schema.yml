@@ -26,5 +26,139 @@ sources:
         tests:
           - unique:
               column_name: "orders_id"
-        
 
+
+
+models:
+
+  - name: sales_with_margin
+    description: >
+      Ventes enrichies avec les prix d'achat pour chaque produit,
+      permettant le calcul du coût d’achat (purchase_cost) et de la marge brute.
+    columns:
+      - name: date_date
+        description: Date de la commande.
+        tests: [not_null]
+      - name: orders_id
+        description: Identifiant de la commande.
+        tests: [not_null]
+      - name: products_id
+        description: Identifiant du produit commandé.
+        tests: [not_null]
+      - name: revenue
+        description: Revenu généré pour le produit.
+        tests: [not_null]
+      - name: quantity
+        description: Quantité commandée.
+        tests: [not_null]
+      - name: purchase_price
+        description: Prix d’achat unitaire du produit.
+        tests: [not_null]
+      - name: purchase_cost
+        description: Coût total d’achat (prix * quantité).
+        tests: [not_null]
+      - name: margin
+        description: Marge brute (revenu - coût d’achat).
+        tests: [not_null]
+
+  - name: agg_sales_margin_daily
+    description: >
+      Agrégation par commande et par jour des revenus, quantités,
+      coûts d’achat et marges brutes.
+    columns:
+      - name: orders_id
+        description: Identifiant de la commande.
+        tests: [not_null]
+      - name: date_date
+        description: Date de la commande.
+        tests: [not_null]
+      - name: revenue
+        description: Revenu total de la commande.
+        tests: [not_null]
+      - name: quantity
+        description: Quantité totale commandée.
+        tests: [not_null]
+      - name: purchase_cost
+        description: Coût total d’achat.
+        tests: [not_null]
+      - name: margin
+        description: Marge brute totale.
+        tests: [not_null]
+
+  - name: orders_with_operational_margin
+    description: >
+      Table de commandes enrichie avec les frais de livraison et les coûts logistiques
+      pour le calcul de la marge opérationnelle.
+    columns:
+      - name: orders_id
+        description: Identifiant de la commande.
+        tests: [not_null]
+      - name: date_date
+        description: Date de la commande.
+        tests: [not_null]
+      - name: revenue
+        description: Revenu total de la commande.
+        tests: [not_null]
+      - name: quantity
+        description: Quantité totale.
+        tests: [not_null]
+      - name: purchase_cost
+        description: Coût d’achat total.
+        tests: [not_null]
+      - name: margin
+        description: Marge brute.
+        tests: [not_null]
+      - name: shipping_fee
+        description: Frais de livraison facturés.
+        tests: [not_null]
+      - name: logcost
+        description: Coût logistique.
+        tests: [not_null]
+      - name: ship_cost
+        description: Coût d’expédition.
+        tests: [not_null]
+      - name: operational_margin
+        description: Marge opérationnelle (margin + shipping_fee - logcost - ship_cost).
+        tests: [not_null]
+
+  - name: kpi_daily
+    description: >
+      Table des indicateurs clés de performance (KPI) agrégés par jour,
+      incluant CA, panier moyen, marges et coûts logistiques.
+    columns:
+      - name: date_date
+        description: Date de la journée analysée.
+        tests: [not_null, unique]
+      - name: nb_transaction
+        description: Nombre de commandes ce jour-là.
+        tests: [not_null]
+      - name: quantity
+        description: Quantité totale vendue.
+        tests: [not_null]
+      - name: turnover
+        description: Chiffre d'affaires total (revenu).
+        tests: [not_null]
+      - name: average_basket
+        description: Panier moyen (calculé via AVG).
+        tests: [not_null]
+      - name: average_basket_bis
+        description: Panier moyen (via SUM/COUNT).
+        tests: [not_null]
+      - name: purchase_cost
+        description: Coût d’achat total des produits.
+        tests: [not_null]
+      - name: margin
+        description: Marge brute totale.
+        tests: [not_null]
+      - name: shipping_fee
+        description: Total des frais de livraison facturés.
+        tests: [not_null]
+      - name: logcost
+        description: Coût logistique total.
+        tests: [not_null]
+      - name: ship_cost
+        description: Coût d’expédition total.
+        tests: [not_null]
+      - name: operational_margin
+        description: Marge opérationnelle totale.
+        tests: [not_null]
